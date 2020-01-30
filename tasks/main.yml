@@ -6,13 +6,20 @@
   failed_when: vagrant_present.rc != 0
   tags: [ 'vagrant', 'verify' ]
 
-- name: Install boxes
-  command: "vagrant box add {{ item.name }} {{ item.box_url }}"
-  register: vagrant_box_install
-  changed_when: vagrant_box_install.rc == 0
-  failed_when: vagrant_box_install.rc != 0
+# vagrant has no single command line to check for this so we have to
+# wrap it up ourselves, and we only add a box if not present
+- name: Add vagrant box if not present
+  shell: |
+    set -o pipefail
+    {{ role_path }}/scripts/add-box-if-missing.sh {{ item.name }} {{ item.box_url }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ role_path }}"
+  register: box_check
+  changed_when: box_check.rc == 314
+  failed_when: box_check.rc != 0
   with_items:
     - "{{ vagrant_boxes }}"
   loop_control:
-    label: "Installing vagrant box {{ item.name }}"
+    label: "Adding vagrant box {{ item.name }} if not present"
   tags: [ 'vagrant', 'box', 'install' ]
