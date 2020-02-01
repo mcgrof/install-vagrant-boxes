@@ -12,6 +12,7 @@ Run system using vagrant.
 Role Variables
 --------------
 
+  * kdevops_install_vagrant_boxes: set to True to enable installing boxes
   * vagrant_boxes: this role is designed so that you override this varaible
     your own list of boxes.
 
