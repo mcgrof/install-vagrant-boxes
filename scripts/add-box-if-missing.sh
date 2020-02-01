@@ -20,7 +20,7 @@ if [[ $# -ne 2 ]]; then
 fi
 
 BOX=$1
-BOX_URL=$1
+BOX_URL=$2
 
 BOX_SEARCH="$1\s\+"
 TMP_FILE=$(mktemp)
