@@ -27,7 +27,7 @@
     chdir: "{{ role_path }}"
   register: box_check
   changed_when: box_check.rc == 314
-  failed_when: box_check.rc != 0 or box_check.rc == 314
+  failed_when: box_check.rc != 0 or box_check.rc != 314
   with_items:
     - "{{ vagrant_boxes }}"
   loop_control:
